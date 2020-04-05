@@ -6,30 +6,31 @@ import random
 from os import path
 
 
+
 print("Checking for data file.")
 if not path.exists("data.csv"):
     print("Data file not found. Creating...")
     html = requests.get("https://www.hangmanwords.com/words").text
     source = bs4.BeautifulSoup(html,'html.parser')
 
-    with open("data.csv", 'w') as file:
+    with open("data.csv", 'w',newline='') as file:
         words = csv.writer(file)
         for element in source.find('ul',class_='list-cols'):
             for text in element:
                 if text != "\n" and ' ' not in text:
-                    file.write(text+',')
+                    words.writerow(element)
     print("Data file created\n\n")
 else:
     print("Data file found.")
 
 reader = csv.reader(open("data.csv"))
-wordList = list(reader)
+wordList = [i[0] for i in reader]
 lives = 26
 correct = []
 wrong = []
 
-word = wordList[0][random.randint(0,len(wordList[0]))].upper()
-print(word)
+word = wordList[random.randint(0,len(wordList))].upper()
+# print(word)
 print("""Let's Play Hangman.
 A word has been chosen at random.
 Your aim is to guess the word. You have a total of 5 chances""")
