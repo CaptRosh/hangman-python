@@ -25,7 +25,7 @@ else:
 
 reader = csv.reader(open("data.csv"))
 wordList = [i[0] for i in reader]
-lives = 26
+lives = 5
 correct = []
 wrong = []
 
